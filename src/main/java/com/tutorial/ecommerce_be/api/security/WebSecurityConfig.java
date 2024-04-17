@@ -11,8 +11,10 @@ import java.beans.Customizer;
 public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable().cors().disable();
-        http.authorizeRequests().anyRequest().permitAll();
+        //http.csrf().disable().cors().disable();
+        http.csrf(csrf -> csrf.disable()).cors(cors -> cors.disable());
+        //http.authorizeRequests().anyRequest().permitAll();
+        http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
         return http.build();
     }
 }
