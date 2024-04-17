@@ -1,5 +1,6 @@
 package com.tutorial.ecommerce_be.api.security;
 
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -17,4 +18,5 @@ public class WebSecurityConfig {
         http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
         return http.build();
     }
+
 }
