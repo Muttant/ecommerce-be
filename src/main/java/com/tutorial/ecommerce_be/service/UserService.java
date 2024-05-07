@@ -9,6 +9,7 @@ import com.tutorial.ecommerce_be.model.LocalUser;
 import com.tutorial.ecommerce_be.model.VerificationToken;
 import com.tutorial.ecommerce_be.model.dao.LocalUserDAO;
 import com.tutorial.ecommerce_be.model.dao.VerificationTokenDAO;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
@@ -82,16 +83,19 @@ public class UserService {
         }
         return null;
     }
+    @Transactional
     public boolean verifyUser(String token){
         Optional<VerificationToken> opToken = verificationTokenDAO.findByToken(token);
         if(opToken.isPresent()){
             VerificationToken verificationToken = opToken.get();
             LocalUser user = verificationToken.getUser();
-            if(user.isEmailVerified()){
+            if(!user.isEmailVerified()){
                 user.setEmailVerified(true);
                 localUserDAO.save(user);
                 verificationTokenDAO.deleteByUser(user);
+                return true;
             }
         }
+        return false;
     }
 }
